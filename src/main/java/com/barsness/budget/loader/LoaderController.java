@@ -3,9 +3,11 @@ package com.barsness.budget.loader;
 
 import com.barsness.budget.service.domain.Budget;
 import com.barsness.budget.service.domain.BudgetCategory;
+import com.barsness.budget.service.domain.Person;
 import com.barsness.budget.service.domain.Transaction;
 import com.barsness.budget.service.repository.BudgetCategoryRepository;
 import com.barsness.budget.service.repository.BudgetRepository;
+import com.barsness.budget.service.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -26,9 +28,13 @@ public class LoaderController {
 
     String budgetAppUrl = "http://localhost:8080";
     private static boolean setupBudget = false;
+    private static boolean setupPerson = false;
 
     @Autowired
     BudgetRepository budgetRepo;
+
+    @Autowired
+    PersonRepository personRepo;
 
     @Autowired
     BudgetCategoryRepository budgetCatRepo;
@@ -130,7 +136,17 @@ public class LoaderController {
             budgetCatRepo.save(new BudgetCategory(budget.getId(), "Retirement", "Retirement", invest.getId()));
             budgetCatRepo.save(new BudgetCategory(budget.getId(), "Short Term Savings", "Short Term Savings", invest.getId()));
             budgetCatRepo.save(new BudgetCategory(budget.getId(), "Unknown", "Unknown"));
+        }
+        return "Success";
+    }
 
+    @RequestMapping(value="/personsetup", method=RequestMethod.GET)
+    public String personSetup() {
+        if(setupPerson){
+            personRepo.save(new Person("Matt", "Barsness", "bars0036@gmail.com", "612-986-2973"));
+            personRepo.save(new Person("Julie", "Barsness", "hoolie814@yahoo.com", "612-220-6577"));
+            personRepo.save(new Person("Teagan", "Barsness"));
+            personRepo.save(new Person("Anders", "Barsness"));
         }
         return "Success";
     }

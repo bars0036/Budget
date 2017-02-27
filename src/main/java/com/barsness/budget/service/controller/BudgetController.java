@@ -2,8 +2,10 @@ package com.barsness.budget.service.controller;
 
 import com.barsness.budget.service.domain.Budget;
 import com.barsness.budget.service.domain.BudgetCategory;
+import com.barsness.budget.service.domain.BudgetTransaction;
 import com.barsness.budget.service.repository.BudgetCategoryRepository;
 import com.barsness.budget.service.repository.BudgetRepository;
+import com.barsness.budget.service.repository.BudgetTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,9 @@ public class BudgetController {
 
     @Autowired
     BudgetCategoryRepository budgetCategoryRepo;
+
+    @Autowired
+    BudgetTransactionRepository budgetTransactionRepo;
 
 
     @RequestMapping(value="/", method=RequestMethod.GET)
@@ -46,5 +51,12 @@ public class BudgetController {
     }
 
 
+    @RequestMapping(value="/transaction", method = RequestMethod.GET)
+    public List<BudgetTransaction> allBudgetTransactions(){return budgetTransactionRepo.findAll();}
+
+    @RequestMapping(value="/transaction/add", method= RequestMethod.POST)
+    public BudgetTransaction addBudgetTransaction(@RequestBody BudgetTransaction budgetTransaction){
+        return budgetTransactionRepo.save(budgetTransaction);
+    }
 
 }

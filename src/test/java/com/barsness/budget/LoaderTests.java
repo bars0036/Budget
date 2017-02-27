@@ -29,4 +29,10 @@ public class LoaderTests {
         ResponseEntity<String> forEntity = restTemplate.getForEntity("/load/budgetsetup", String.class);
         Assert.assertEquals("Success", forEntity.getBody());
     }
+
+    @Test
+    public void testPersonSetup(){
+        ResponseEntity<String> forEntity = restTemplate.getForEntity("/load/personsetup", String.class);
+        Assert.assertEquals("Success", forEntity.getBody());
+    }
 }
