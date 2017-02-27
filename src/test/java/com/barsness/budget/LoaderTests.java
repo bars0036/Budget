@@ -19,8 +19,14 @@ public class LoaderTests {
 
     @Test
     public void testLoader(){
-        ResponseEntity<LoadResponse> forEntity = restTemplate.getForEntity("/load/run?fileName={fileName}", LoadResponse.class, "/Users/matt.barsness/Documents/Budget/transactions.csv");
+        ResponseEntity<LoadResponse> forEntity = restTemplate.getForEntity("/load/transactions?fileName={fileName}", LoadResponse.class, "/Users/matt.barsness/Documents/Budget/transactions.csv");
         LoadResponse loadResponse = forEntity.getBody();
         Assert.assertEquals(4426, loadResponse.getTransLoaded());
+    }
+
+    @Test
+    public void testBudgetSetup(){
+        ResponseEntity<String> forEntity = restTemplate.getForEntity("/load/budgetsetup", String.class);
+        Assert.assertEquals("Success", forEntity.getBody());
     }
 }

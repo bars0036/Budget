@@ -1,9 +1,7 @@
 package com.barsness.budget.service.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Budget {
@@ -14,12 +12,30 @@ public class Budget {
     private String name;
     private String description;
 
+    @OneToMany
+    @JoinColumn(name="budgetId", referencedColumnName = "id")
+    private List<BudgetCategory> budgetCategories;
+
     public Budget() {
     }
 
     public Budget(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    public Budget(String name, String description, List<BudgetCategory> budgetCategories) {
+        this.name = name;
+        this.description = description;
+        this.budgetCategories = budgetCategories;
+    }
+
+    public List<BudgetCategory> getBudgetCategories() {
+        return budgetCategories;
+    }
+
+    public void setBudgetCategories(List<BudgetCategory> budgetCategories) {
+        this.budgetCategories = budgetCategories;
     }
 
     public Long getId() {

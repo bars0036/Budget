@@ -1,7 +1,12 @@
 package com.barsness.budget.service.repository;
 
-/**
- * Created by matt.barsness on 2/24/17.
- */
-public class BudgetRepository {
+import com.barsness.budget.service.domain.Budget;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+
+public interface BudgetRepository extends JpaRepository<Budget, Long> {
+    List<Budget> findByName(String name);
+
 }

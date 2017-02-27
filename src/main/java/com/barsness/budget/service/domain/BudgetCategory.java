@@ -14,6 +14,7 @@ public class BudgetCategory {
     private Long budgetId;
     private String categoryName;
     private String categoryDescription;
+    private Long categoryParentId;
 
     public BudgetCategory() {
     }
@@ -22,6 +23,21 @@ public class BudgetCategory {
         this.budgetId = budgetId;
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
+    }
+
+    public BudgetCategory(Long budgetId, String categoryName, String categoryDescription, Long categoryParentId) {
+        this.budgetId = budgetId;
+        this.categoryName = categoryName;
+        this.categoryDescription = categoryDescription;
+        this.categoryParentId = categoryParentId;
+    }
+
+    public Long getCategoryParentId() {
+        return categoryParentId;
+    }
+
+    public void setCategoryParentId(Long categoryParentId) {
+        this.categoryParentId = categoryParentId;
     }
 
     public Long getId() {
