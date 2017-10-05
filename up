@@ -1,0 +1,33 @@
+#!/bin/bash
+
+./gradlew clean build -Dspring.profiles.active=localdocker
+
+rm -rf .docker/service/files/ && mkdir -p .docker/service/files/
+cp build/libs/*.jar .docker/service/files/
+
+# set the VERSION
+file="build/resources/main/application-actuatorsupport.properties"
+
+if [ -f "$file" ]
+then
+  echo "$file found."
+
+  while IFS='=' read -r key value
+  do
+    if [ -n "$key" ]
+    then
+      key=$(echo "$key" | tr '.' '_')
+      eval "${key}='${value}'"
+    fi
+  done < "$file"
+
+  echo "Build Version=${info_build_version}"
+  export VERSION=${info_build_version}
+else
+  echo "$file not found."
+fi
+
+
+docker-compose -f .docker/docker-compose.yml down
+docker-compose -f .docker/docker-compose.yml build
+docker-compose -f .docker/docker-compose.yml up

@@ -9,6 +9,7 @@ import com.barsness.budget.service.repository.BudgetCategoryRepository;
 import com.barsness.budget.service.repository.BudgetRepository;
 import com.barsness.budget.service.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,12 @@ import java.util.List;
 public class LoaderController {
 
     String budgetAppUrl = "http://localhost:8080";
-    private static boolean setupBudget = false;
-    private static boolean setupPerson = false;
+
+    @Value("${budget.budgetloader.setupBudget}")
+    private boolean setupBudget;
+
+    @Value("${budget.budgetloader.setupPerson}")
+    private boolean setupPerson;
 
     @Autowired
     BudgetRepository budgetRepo;
@@ -137,7 +142,7 @@ public class LoaderController {
             budgetCatRepo.save(new BudgetCategory(budget.getId(), "Short Term Savings", "Short Term Savings", invest.getId()));
             budgetCatRepo.save(new BudgetCategory(budget.getId(), "Unknown", "Unknown"));
         }
-        return "Success";
+        return "Success2";
     }
 
     @RequestMapping(value="/personsetup", method=RequestMethod.GET)

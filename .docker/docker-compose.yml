@@ -1,0 +1,30 @@
+# intent is to have a network for all local docker containers to join
+networks:
+    localdevnetwork:
+
+services:
+    budget_service:
+        depends_on:
+        - budget_postgres
+        build:
+          context: ./service
+          args:
+            ARTIFACT_NAME: budget-service
+            VERSION: ${VERSION}
+        ports:
+          - "8081:8080"
+          - "5005:5005"
+        networks:
+          - localdevnetwork
+        environment:
+          - SPRING_PROFILES_ACTIVE=localdocker
+          - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+    budget_postgres:
+        image: postgres:9.6.1
+        ports:
+          - "5433:5432"
+        volumes:
+          - ../src/main/resources/db/administration:/docker-entrypoint-initdb.d
+        networks:
+          - localdevnetwork
+version: '3.1'

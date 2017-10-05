@@ -18,6 +18,7 @@ public class BudgetTransaction {
     private Long personId;
     private LocalDateTime dateAssigned;
     private BigDecimal value;
+    private boolean autoAssigned;
 
     public BudgetTransaction() {
     }
@@ -28,6 +29,24 @@ public class BudgetTransaction {
         this.personId = personId;
         this.dateAssigned = dateAssigned;
         this.value = value;
+        this.autoAssigned = false;
+    }
+
+    public BudgetTransaction(Long budgetCategoryId, Long transactionId, Long personId, LocalDateTime dateAssigned, BigDecimal value, boolean autoAssigned) {
+        this.budgetCategoryId = budgetCategoryId;
+        this.transactionId = transactionId;
+        this.personId = personId;
+        this.dateAssigned = dateAssigned;
+        this.value = value;
+        this.autoAssigned = autoAssigned;
+    }
+
+    public boolean isAutoAssigned() {
+        return autoAssigned;
+    }
+
+    public void setAutoAssigned(boolean autoAssigned) {
+        this.autoAssigned = autoAssigned;
     }
 
     public Long getId() {
