@@ -25,6 +25,7 @@ services:
           - "5433:5432"
         volumes:
           - ../src/main/resources/db/administration:/docker-entrypoint-initdb.d
+          - ./postgres-data:/var/lib/postgresql/data
         networks:
           - localdevnetwork
 version: '3.1'

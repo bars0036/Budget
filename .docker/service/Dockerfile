@@ -1,4 +1,4 @@
-FROM jdk:8u111
+FROM openjdk:8u141
 ARG VERSION
 ARG ARTIFACT_NAME
 COPY files/${ARTIFACT_NAME}-${VERSION}.jar  /app/app.jar

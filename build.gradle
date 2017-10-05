@@ -15,7 +15,7 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 jar {
-	baseName = 'budget-service-unspecified'
+	baseName = 'budget-service-1.1'
 }
 
 sourceCompatibility = 1.8
