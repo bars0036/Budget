@@ -1,4 +1,3 @@
-# intent is to have a network for all local docker containers to join
 networks:
     localdevnetwork:
 
@@ -25,7 +24,7 @@ services:
           - "5433:5432"
         volumes:
           - ../src/main/resources/db/administration:/docker-entrypoint-initdb.d
-          - ./postgres-data:/var/lib/postgresql/data
+          - ../postgres-data:/var/lib/postgresql/data
         networks:
           - localdevnetwork
 version: '3.1'
