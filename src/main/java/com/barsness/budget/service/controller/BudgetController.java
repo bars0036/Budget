@@ -9,7 +9,7 @@ import com.barsness.budget.service.repository.BudgetTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +35,10 @@ public class BudgetController {
         return budgetRepo.findAll();
     }
 
+    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    public Budget getBudgets(@PathVariable Long id){
+        return budgetRepo.findById(id);
+    }
     @RequestMapping(value="/add", method=RequestMethod.POST)
     public Budget addBudget(@RequestBody Budget budget){
         return budgetRepo.save(budget);
@@ -57,6 +61,13 @@ public class BudgetController {
     @RequestMapping(value="/transaction/add", method= RequestMethod.POST)
     public BudgetTransaction addBudgetTransaction(@RequestBody BudgetTransaction budgetTransaction){
         return budgetTransactionRepo.save(budgetTransaction);
+    }
+
+    @RequestMapping(value="/category/{id}/assign-transaction", method=RequestMethod.PUT)
+    public BudgetTransaction assignTransaction(@PathVariable Long id, @RequestParam Long transactionId, @RequestParam Long personId, @RequestParam BigDecimal value){
+        BudgetTransaction bt = new BudgetTransaction(id, transactionId, personId, value);
+        bt = budgetTransactionRepo.save(bt);
+        return bt;
     }
 
 }

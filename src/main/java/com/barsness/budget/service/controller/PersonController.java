@@ -16,15 +16,17 @@ public class PersonController {
     @Autowired
     PersonRepository personRepo;
 
-    @RequestMapping(value="/", method= RequestMethod.GET)
-    public List<Person> getBudgets(@RequestParam(value="id") Optional<Long> id){
-        if(id.isPresent()){
-            List<Person> person = new ArrayList<>();
-            person.add(personRepo.findById(id.get()));
-            return person;
-        }
+    @RequestMapping(value="/{id}", method= RequestMethod.GET)
+    public Person getPerson(@PathVariable Long id){
+            return(personRepo.findById(id));
+    }
+
+    @RequestMapping(value="/", method=RequestMethod.GET)
+    public List<Person> getPeople(){
         return personRepo.findAll();
     }
+
+
 
     @RequestMapping(value="/add", method=RequestMethod.POST)
     public Person addBudget(@RequestBody Person person){

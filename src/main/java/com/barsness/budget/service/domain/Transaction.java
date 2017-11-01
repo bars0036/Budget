@@ -3,6 +3,7 @@ package com.barsness.budget.service.domain;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Transaction {
@@ -19,6 +20,8 @@ public class Transaction {
     private BigDecimal value;
     private String source;
     private LocalDateTime dateCreated;
+    @OneToMany(mappedBy="transactionId")
+    private List<BudgetTransaction> budgetTransactions;
 
     public Transaction() {
     }
@@ -33,6 +36,31 @@ public class Transaction {
         this.value = value;
         this.source = source;
         this.dateCreated = LocalDateTime.now();
+    }
+
+    public Transaction(LocalDateTime transactionDate, String description, String institution, String account, String category, Boolean isHidden, BigDecimal value, String source, LocalDateTime dateCreated, List<BudgetTransaction> budgetTransactions) {
+        this.transactionDate = transactionDate;
+        this.description = description;
+        this.institution = institution;
+        this.account = account;
+        this.category = category;
+        this.isHidden = isHidden;
+        this.value = value;
+        this.source = source;
+        this.dateCreated = dateCreated;
+        this.budgetTransactions = budgetTransactions;
+    }
+
+    public Boolean getHidden() {
+        return isHidden;
+    }
+
+    public List<BudgetTransaction> getBudgetTransactions() {
+        return budgetTransactions;
+    }
+
+    public void setBudgetTransactions(List<BudgetTransaction> budgetTransactions) {
+        this.budgetTransactions = budgetTransactions;
     }
 
     public Long getId() {

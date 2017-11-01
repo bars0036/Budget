@@ -1,9 +1,11 @@
 package com.barsness.budget.service.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class BudgetCategory {
@@ -14,9 +16,36 @@ public class BudgetCategory {
     private Long budgetId;
     private String categoryName;
     private String categoryDescription;
-    private Long categoryParentId;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="category_Parent_Id")
+    @JsonBackReference
+    private BudgetCategory parentCategory;
+
+    @OneToMany(mappedBy="parentCategory", cascade=CascadeType.ALL)
+    @JsonManagedReference
+    private List<BudgetCategory> budgetCategories = new ArrayList<>();
+
 
     public BudgetCategory() {
+    }
+
+    public BudgetCategory(String categoryName, String categoryDescription) {
+        this.categoryName = categoryName;
+        this.categoryDescription = categoryDescription;
+    }
+
+    public BudgetCategory(String categoryName, String categoryDescription, BudgetCategory parentCategory) {
+        this.categoryName = categoryName;
+        this.categoryDescription = categoryDescription;
+        this.parentCategory = parentCategory;
+    }
+
+    public BudgetCategory(String categoryName, String categoryDescription, BudgetCategory parentCategory, List<BudgetCategory> budgetCategories) {
+        this.categoryName = categoryName;
+        this.categoryDescription = categoryDescription;
+        this.parentCategory = parentCategory;
+        this.budgetCategories = budgetCategories;
     }
 
     public BudgetCategory(Long budgetId, String categoryName, String categoryDescription) {
@@ -25,19 +54,40 @@ public class BudgetCategory {
         this.categoryDescription = categoryDescription;
     }
 
-    public BudgetCategory(Long budgetId, String categoryName, String categoryDescription, Long categoryParentId) {
+    public BudgetCategory(Long budgetId, String categoryName, String categoryDescription, BudgetCategory parentCategory) {
         this.budgetId = budgetId;
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
-        this.categoryParentId = categoryParentId;
+        this.parentCategory = parentCategory;
     }
 
-    public Long getCategoryParentId() {
-        return categoryParentId;
+    public BudgetCategory(Long budgetId, String categoryName, String categoryDescription, BudgetCategory parentCategory, List<BudgetCategory> budgetCategories) {
+        this.budgetId = budgetId;
+        this.categoryName = categoryName;
+        this.categoryDescription = categoryDescription;
+        this.parentCategory = parentCategory;
+        this.budgetCategories = budgetCategories;
     }
 
-    public void setCategoryParentId(Long categoryParentId) {
-        this.categoryParentId = categoryParentId;
+    public void addBudgetCategory(BudgetCategory budgetCategory){
+        budgetCategory.setParentCategory(this);
+        this.budgetCategories.add(budgetCategory);
+    }
+
+    public BudgetCategory getParentCategory() {
+        return parentCategory;
+    }
+
+    public void setParentCategory(BudgetCategory parentCategory) {
+        this.parentCategory = parentCategory;
+    }
+
+    public List<BudgetCategory> getBudgetCategories() {
+        return budgetCategories;
+    }
+
+    public void setBudgetCategories(List<BudgetCategory> budgetCategories) {
+        this.budgetCategories = budgetCategories;
     }
 
     public Long getId() {

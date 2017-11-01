@@ -20,7 +20,7 @@ public class BudgetTransaction {
     private BigDecimal value;
     private boolean autoAssigned;
 
-    public BudgetTransaction() {
+    private BudgetTransaction() {
     }
 
     public BudgetTransaction(Long budgetCategoryId, Long transactionId, Long personId, LocalDateTime dateAssigned, BigDecimal value) {
@@ -29,6 +29,15 @@ public class BudgetTransaction {
         this.personId = personId;
         this.dateAssigned = dateAssigned;
         this.value = value;
+        this.autoAssigned = false;
+    }
+
+    public BudgetTransaction(Long budgetCategoryId, Long transactionId, Long personId, BigDecimal value) {
+        this.budgetCategoryId = budgetCategoryId;
+        this.transactionId = transactionId;
+        this.personId = personId;
+        this.value = value;
+        this.dateAssigned = LocalDateTime.now();
         this.autoAssigned = false;
     }
 

@@ -1,6 +1,7 @@
 package com.barsness.budget.service.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,9 +13,9 @@ public class Budget {
     private String name;
     private String description;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name="budgetId", referencedColumnName = "id")
-    private List<BudgetCategory> budgetCategories;
+    private List<BudgetCategory> budgetCategories = new ArrayList<>();
 
     public Budget() {
     }

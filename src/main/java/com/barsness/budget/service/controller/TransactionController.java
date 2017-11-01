@@ -27,6 +27,7 @@ public class TransactionController {
         Transaction trans = tranRepo.findById(id);
         return trans;
     }
+
     @RequestMapping(value="/update", method=RequestMethod.POST)
     public Transaction updateRecord(@RequestBody Transaction transaction){
         return tranRepo.save(transaction);
@@ -47,4 +48,10 @@ public class TransactionController {
                                               @RequestParam String description, @RequestParam BigDecimal value) {
         return tranRepo.findByTransactionDateAndDescriptionAndValue(LocalDateTime.parse(transDate), description, value);
     }
+
+    @RequestMapping(value="/find-by-date", method=RequestMethod.GET)
+    public List<Transaction> findTransactionsByDate(@RequestParam String startDate, @RequestParam String endDate){
+        return tranRepo.findByTransactionDateBetween(LocalDateTime.parse(startDate), LocalDateTime.parse(endDate));
+    }
+
 }
